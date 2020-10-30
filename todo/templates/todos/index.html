@@ -24,13 +24,22 @@
             {% for todo in todos %}
               <tr>
                 <th scope="row">{{ todo.id }}</th>
+                {% if todo.is_completed %}
+                  <td><s>{{ todo.title }}</s></td>
+                {% else %}
                 <td>{{ todo.title }}</td>
+                {% endif %}
+                {% if todo.completed_at %}
+                <td><b>Completion Time:</b> {{ todo.completed_at }}</td>
+                {% else %}
                 <td>{{ todo.description }}</td>
+                {% endif %}
                 <td>{{ todo.priority }}</td>
                 <td>
-                    <span class="badge badge-success">Done</span>
-                    <span class="badge badge-danger">Delete</span>
-                    <span class="badge badge-info">Update</span>
+                  {% if todo.is_completed is False %}
+                  <a href="{% url 'complete' todo.id %}"><span class="badge badge-success">Complete</span></a>
+                  {% endif %}
+                    <a href="{% url 'delete' todo.id %}"><span class="badge badge-danger">Delete</span></a>
                 </td>
               </tr>
             {% endfor %}
